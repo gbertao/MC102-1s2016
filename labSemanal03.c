@@ -7,7 +7,7 @@ int main (void) {
 	unsigned char Red[600][600], Green[600][600], Blue[600][600], Cinza[600][600];
 	int Filtro[10][10], matrizNova[600][600], divisor, op = 0, ordem;
 	unsigned char Codigo[1080000]; 
-	unsigned int linha, coluna, altura, largura, priPonto, linhaF, colunaF, h, k;
+	unsigned int linha = 0, coluna = 0, altura, largura, priPonto, linhaF, colunaF, h, k;
 	unsigned int indice = 0, j = 0, multiplicador = 0, elemento = 0;
 
 	scanf("%d", &divisor);
@@ -20,45 +20,39 @@ int main (void) {
 	}
 
 	scanf("%u %u", &largura, &altura);
+	
+	//Preparações(matriz deve ser inteira de 0)
+	for(linha = 0; linha < altura; linha++) {
+		for(coluna = 0; coluna < largura; coluna++) {
+			Cinza[linha][coluna] = 0;
+		}
+	}
 
-	//1ºPasso: Descomprimir as matrizes Red, Green, Blue
-	//Descomprimir RLE
+	//1ºPasso: Encontrar a matriz cinza
+	//Completar a matriz da soma de Red, Green e Blue
 	while(indice < largura * altura * 3) {
 		scanf(" %u %u", &multiplicador, &elemento);
 		
 		for(j = 0; j < multiplicador; j++) {
-			Codigo[indice] = elemento;
-			indice++;
-		}	
-	}
-	
-	//Completar as Matrizes
-	indice = 0;
-	for(linha = 0; linha < altura; linha++) {
-		for(coluna = 0; coluna < largura; coluna++) {
-			Red[linha][coluna] = Codigo[indice];
-			indice++;
+			if(coluna > largura) {
+				coluna = 0;
+				linha++;
+			}
+			if(linha > altura) {
+				coluna = 0;
+				linha = 0;
+			}		
+			Cinza[linha][coluna] = Cinza[linha][coluna] + elmento;
+			coluna++;
 		}
+		coluna = 0;
+		linha = 0;	
 	}
 
-	for(linha = 0; linha < altura; linha++) {
-		for(coluna = 0; coluna < largura; coluna++) {
-			Green[linha][coluna] = Codigo[indice];
-			indice++;
-		}
-	}
-
-	for(linha = 0; linha < altura; linha++) {
-		for(coluna = 0; coluna < largura; coluna++) {
-			Blue[linha][coluna] = Codigo[indice];
-			indice++;
-		}
-	}
-	
 	//2ºPasso: Transformar em escala de Cinza
 	for(linha = 0; linha < altura; linha++) {
 		for(coluna = 0; coluna < largura; coluna++) {
-			Cinza[linha][coluna] = (Red[linha][coluna] + Green[linha][coluna] + Blue[linha][coluna])/3;
+			Cinza[linha][coluna] = (Cinza[linha][coluna]) / 3;
 		}
 	}	
 	
