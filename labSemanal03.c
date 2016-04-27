@@ -35,19 +35,18 @@ int main (void) {
 		scanf(" %u %u", &multiplicador, &elemento);
 		
 		for(j = 0; j < multiplicador; j++) {
-			if(coluna > largura) {
+			if(coluna == largura) {
 				coluna = 0;
 				linha++;
 			}
-			if(linha > altura) {
+			if(linha == altura) {
 				coluna = 0;
 				linha = 0;
 			}		
 			Cinza[linha][coluna] = Cinza[linha][coluna] + elemento;
 			coluna++;
+			indice++;
 		}
-		coluna = 0;
-		linha = 0;	
 	}
 
 	//2ºPasso: Transformar em escala de Cinza
