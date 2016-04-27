@@ -4,9 +4,8 @@
 
 int main (void) {
 	//Declaração de variaveis
-	unsigned char Red[600][600], Green[600][600], Blue[600][600], Cinza[600][600];
+	unsigned char Cinza[600][600];
 	int Filtro[10][10], matrizNova[600][600], divisor, op = 0, ordem;
-	unsigned char Codigo[1080000]; 
 	unsigned int linha = 0, coluna = 0, altura, largura, priPonto, linhaF, colunaF, h, k;
 	unsigned int indice = 0, j = 0, multiplicador = 0, elemento = 0;
 
@@ -27,6 +26,8 @@ int main (void) {
 			Cinza[linha][coluna] = 0;
 		}
 	}
+	linha = 0;
+	coluna = 0;
 
 	//1ºPasso: Encontrar a matriz cinza
 	//Completar a matriz da soma de Red, Green e Blue
@@ -42,7 +43,7 @@ int main (void) {
 				coluna = 0;
 				linha = 0;
 			}		
-			Cinza[linha][coluna] = Cinza[linha][coluna] + elmento;
+			Cinza[linha][coluna] = Cinza[linha][coluna] + elemento;
 			coluna++;
 		}
 		coluna = 0;
