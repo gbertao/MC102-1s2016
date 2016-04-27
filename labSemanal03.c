@@ -1,6 +1,18 @@
 //Giovanni Bertão - ra173325 - Turma: Y
+//Descrição do Programa:
+//	O programa ira tratar uma imagem, transformando-a em uma nova imagem em  escala de cinza e,
+//	consecutivamente, aplicando um filtro sobre a nova imagem.
+//
+//	Entrada: Um inteiro, usado no processo de filtragem;
+//		 Um inteiro menor que 10, ordem da matriz utilizada no processo de filtragem;
+//		 Uma matriz quadrada, utilizada no processo de filtragem;
+//		 Uma linha com 2 inteiros positivos, representam a resolução da imagem;
+//		 Uma sequencia de numeros inteiros comprimidos com o algoritmo RLE.
+//
+//	Saída:	 Uma matriz, representando uma imagem após passar pela filtragem.
+//	
+
 #include<stdio.h>
-#include<math.h>
 
 int main (void) {
 	//Declaração de variaveis
