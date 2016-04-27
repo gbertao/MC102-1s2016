@@ -4,7 +4,7 @@
 
 int main (void) {
 	//Declaração de variaveis
-	unsigned char Cinza[600][600];
+	unsigned short int Cinza[600][600];
 	int Filtro[10][10], matrizNova[600][600], divisor, op = 0, ordem;
 	unsigned int linha = 0, coluna = 0, altura, largura, priPonto, linhaF, colunaF, h, k;
 	unsigned int indice = 0, j = 0, multiplicador = 0, elemento = 0;
