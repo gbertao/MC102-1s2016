@@ -2,83 +2,145 @@
 #include<stdio.h>
 #include<string.h>
 
+//Assinatura de Funcoes
+int inserir (int tipo, char nome[], long long int cpf, char endereco[], long long int fone1, long long int fone2);
+int excluir (int tipo, char nome[]);
+int alterar (int tipo, char nome[], long long int cpf, char endereco[], long long int fone1, long long int fone2);
+int buscar (int tipo, char nome[]);
+int listarPessoais (void);
+int listarProfissionais (void);
+int listarTodos(void);
+
 typedef char string[60];
+
 //Contatos Pessoais
 string nomePessoal[10], endPessoal[10];
-int cpfPessoal[10], fone1Pessoal[10], fone2Pessoal[10];
+long long int cpfPessoal[10], fone1Pessoal[10], fone2Pessoal[10];
+
 //Contatos Profissionais
 string nomeProfissional[10], endProfissional[10];
-int cpfProfissional[10], fone1Profissional[10], fone2Profissional[10];
-
-for(int i = 0; i < 10; i++) {
-	nomePessoal[i] = '\0';
-	nomeProfissional[i] = '\0';
-}
+long long int cpfProfissional[10], fone1Profissional[10], fone2Profissional[10];
 
 int main (void) {
 	//Declaração de variaveis
 	int op, tipo, resposta;
-	int cpf, fone1, fone2;
+	long long int cpf, fone1, fone2;
 	char nome[60], endereco[60];
 
+	//Preparar matrizes(op para economizar variaveis)
+	for(op = 0; op < 10; op++) {
+		strcpy(nomePessoal[op], "\0");
+		strcpy(nomeProfissional[op], "\0");		
+	}
+
 	//Menu
+	do{
 	scanf("%d", &op);
 
 	switch (op) {
 		case 1:
 			scanf("%d", &tipo);
 			scanf(" %[^\n]s", nome);
-			scanf(" %d", &cpf);
+			scanf(" %lld", &cpf);
 			scanf(" %[^\n]s", endereco);
-			scanf(" %d", &fone1);
-			scanf(" %d", &fone2);
+			scanf(" %lld", &fone1);
+			scanf(" %lld", &fone2);
 
 			resposta = inserir(tipo, nome, cpf, endereco, fone1, fone2);
 			
-			if(respsota == 0) {
+			if(resposta == 0) {
 				printf("Desculpe, agenda lotada!\n");
 			} else {
 				printf("Inserido com sucesso!\n");
 			}
 			break;
 		case 2:
-			excluir();
+			scanf("%d", &tipo);
+			scanf(" %[^\n]s", nome);
+			resposta = excluir(tipo, nome);
+
+			if(resposta == 0) {
+				printf("Desculpue, contato %s nao existe\n", nome);
+			} else {
+				printf("Excluido com sucesso!\n");
+			}
 			break;
 		case 3:
-			alterar();
+			scanf("%d", &tipo);
+			scanf(" %[^\n]s", nome);
+			scanf(" %lld", &cpf);
+			scanf(" %[^\n]s", endereco);
+			scanf(" %lld", &fone1);
+			scanf(" %lld", &fone2);
+
+			resposta = alterar(tipo, nome, cpf, endereco, fone1, fone2);
+			
+			if(resposta == 0) {
+				printf("Desculpe, contato %s nao existe\n", nome);
+			} else {
+				printf("Alterado com sucesso\n");
+			}
 			break;
 		case 4:
-			buscar();
+			scanf("%d", &tipo);
+			scanf(" %[^\n]s", nome);
+
+			resposta = buscar(tipo, nome);
+		
+			if(resposta == 0) {
+				printf("Desculpe, contado %s nao existe!\n", nome);
+			} else {
+				printf("Buscado com sucesso!\n");
+			}
 			break;
 		case 5:
-			listarPessoais();
+			resposta = listarPessoais();
+
+			if(resposta == 0) {
+				printf("Listado com sucesso!\n");
+			} else {
+				printf("Desculpe, agenda vazia!\n");
+			}
 			break;
 		case 6:
-			listarProfissionais();
+			resposta = listarProfissionais();
+			
+			if(resposta == 0) {
+				printf("Listado com sucesso!\n");
+			} else {
+				printf("Desculpe, agenda vazia!\n");
+			}
 			break;
 		case 7:
-			listarTodos();
+			resposta = listarTodos();
+			
+			if(resposta == 0) {
+				printf("Listado com sucesso!\n");
+			} else {
+				printf("Desculpe, agenda vazia!\n");
+			}
 			break;
 		case 0:
 			printf("Obrigado!\n");
 			break;
 	}
-
+	}while(op!=0);
 	return 0;
 }
 
-//Funções
-int inserir (int tipo, char nome[], int cpf, char endereco[], int fone1, int fone2) {
-	int  cont, r;
+//----------------------------------------------Funções
+//---Inserir
+int inserir (int tipo, char nome[], long long int cpf, char endereco[], long long int fone1, long long int fone2) {
+	int  indice, r;
 	//Verificar agenda e inserir
-	if (tipo = 1) {
-		for (cont = 0; cont < 10; cont++) {
-			if(nomePessoal[cont] == '\0') {
-				strcpy(nomePessoal[cont], nome);
-				cpfPessoal[cont] = cpf;
-				strcpy(endPessoal[cont], endereco);
-				fone1Pessoal[cont] = fone1;
-				fone2Pessoal[cont] = fone2;
+	if (tipo == 1) {
+		for (indice = 0; indice < 10; indice++) {
+			if(strcmp(nomePessoal[indice], "") == 0) {
+				strcpy(nomePessoal[indice], nome);
+				cpfPessoal[indice] = cpf;
+				strcpy(endPessoal[indice], endereco);
+				fone1Pessoal[indice] = fone1;
+				fone2Pessoal[indice] = fone2;
 				r = 1;
 				break;
 			} else {
@@ -86,13 +148,13 @@ int inserir (int tipo, char nome[], int cpf, char endereco[], int fone1, int fon
 			}
 		}
 	} else {
-		for (cont = 0; cont < 10; cont++) {
-			if(nomeProfissional[cont] == '\0') {
-				strcpy(nomeProfissional[i], nome);
-				cpfProfissional[cont] = cpf;
-				strcpy(endProfissional[cont], endereco);
-				fone1Profissional[cont] = fone1;
-				fone2Profissional[cont] = fone2;
+		for (indice = 0; indice < 10; indice++) {
+			if(strcmp(nomeProfissional[indice], "") == 0) {
+				strcpy(nomeProfissional[indice], nome);
+				cpfProfissional[indice] = cpf;
+				strcpy(endProfissional[indice], endereco);
+				fone1Profissional[indice] = fone1;
+				fone2Profissional[indice] = fone2;
 				r = 1;
 				break;
 			} else {
@@ -100,5 +162,193 @@ int inserir (int tipo, char nome[], int cpf, char endereco[], int fone1, int fon
 			}
 		}
 	}
+	return r;
+}
+
+//---Excluir
+int excluir (int tipo, char nome[]) {
+	int r, indice;
+	
+	//Procurar na matriz pelo nome
+	if(tipo == 1) {
+		for(indice = 0; indice < 10; indice++) {
+			//se nome digitado existe na lista
+			if(strcmp(nomePessoal[indice], nome) == 0) {
+				strcpy(nomePessoal[indice], "\0");
+         		r = 1;
+				break;
+			} else {
+				r = 0;
+			}
+		}
+	} else {
+		for(indice = 0; indice < 10; indice++) {
+			if(strcmp(nomeProfissional[indice], nome) == 0) {
+				strcpy(nomeProfissional[indice], "\0");
+         		r = 1;
+				break;
+			} else {
+				r = 0;
+			}
+		}
+	}
+	return r;
+}
+
+//---Alterar
+int alterar (int tipo, char nome[], long long int cpf, char endereco[], long long int fone1, long long int fone2) {
+	int r, indice;
+
+	//Procurar na lista pelo nome
+	if (tipo == 1) {
+		for (indice = 0; indice < 10; indice++) {
+			if(strcmp(nomePessoal[indice], nome) == 0) {
+				cpfPessoal[indice] = cpf;
+				strcpy(endPessoal[indice], endereco);
+				fone1Pessoal[indice] = fone1;
+				fone2Pessoal[indice] = fone2;
+				r = 1;
+				break;
+			} else {
+				r = 0;
+			}
+		}
+	} else {
+		for (indice = 0; indice < 10; indice++) {
+			if(strcmp(nomeProfissional[indice], nome) == 0) {
+				cpfProfissional[indice] = cpf;
+				strcpy(endProfissional[indice], endereco);
+				fone1Profissional[indice] = fone1;
+				fone2Profissional[indice] = fone2;
+				r = 1;
+				break;
+			} else {
+				r = 0;
+			}
+		}
+	}
+
+	return r;
+}
+
+//---Buscar
+int buscar (int tipo, char nome[]) {
+	int r, indice;
+
+	if(tipo == 1) {
+		for (indice = 0; indice < 10; indice++) {
+			if(strcmp(nomePessoal[indice], nome) == 0) {
+				printf("%s\n", nomePessoal[indice]);
+				printf("%lld\n", cpfPessoal[indice]);
+				printf("%s\n", endPessoal[indice]);
+				printf("%lld\n", fone1Pessoal[indice]);
+				printf("%lld\n", fone2Pessoal[indice]);
+				r = 1;
+				break;
+			} else {
+				r = 0;
+			}
+		}
+	} else {
+		for (indice = 0; indice < 10; indice++) {
+			if(strcmp(nomeProfissional[indice], nome) == 0) {
+				printf("%s\n", nomeProfissional[indice]);
+				printf("%lld\n", cpfProfissional[indice]);
+				printf("%s\n", endProfissional[indice]);
+				printf("%lld\n", fone1Profissional[indice]);
+				printf("%lld\n", fone2Profissional[indice]);
+				r = 1;
+				break;
+			} else {
+				r = 0;
+			}
+		}
+	}
+	return r;
+}
+
+//---Listar contatos pessoais
+int listarPessoais (void) {
+	int indice, contVazios = 0, r;
+	
+	for(indice = 0; indice < 10; indice++) {
+		if(strcmp(nomePessoal[indice], "") == 0) {
+			contVazios++;
+		} else {
+			printf("%s\n", nomePessoal[indice]);
+			printf("%lld\n", cpfPessoal[indice]);
+			printf("%s\n", endPessoal[indice]);
+			printf("%lld\n", fone1Pessoal[indice]);
+			printf("%lld\n", fone2Pessoal[indice]);
+		}
+	}
+		
+	if(contVazios == 10) {
+		r = 0;
+	} else {
+		r = 1;
+	}
+
+	return r;
+}
+
+//---Listar contatos profissionais
+int listarProfissionais (void) {
+	int indice, contVazios = 0, r;
+	
+	for(indice = 0; indice < 10; indice++) {
+		if(strcmp(nomeProfissional[indice], "") == 0) {
+			contVazios++;
+		} else {
+			printf("%s\n", nomeProfissional[indice]);
+			printf("%lld\n", cpfProfissional[indice]);
+			printf("%s\n", endProfissional[indice]);
+			printf("%lld\n", fone1Profissional[indice]);
+			printf("%lld\n", fone2Profissional[indice]);
+		}
+	}
+		
+	if(contVazios == 10) {
+		r = 0;
+	} else {
+		r = 1;
+	}
+
+	return r;
+}
+
+//---Listar todos os contatos
+int listarTodos (void) {
+	int indice, contVazios = 0, r;
+
+	for(indice = 0; indice < 10; indice++) {
+		if(strcmp(nomePessoal[indice], "") == 0) {
+			contVazios++;
+		} else {
+			printf("%s\n", nomePessoal[indice]);
+			printf("%lld\n", cpfPessoal[indice]);
+			printf("%s\n", endPessoal[indice]);
+			printf("%lld\n", fone1Pessoal[indice]);
+			printf("%lld\n", fone2Pessoal[indice]);
+		}
+	}
+	for(indice = 0; indice < 10; indice++) {
+		if(strcmp(nomeProfissional[indice], "") == 0) {
+			contVazios++;
+		} else {
+			printf("%s\n", nomeProfissional[indice]);
+			printf("%lld\n", cpfProfissional[indice]);
+			printf("%s\n", endProfissional[indice]);
+			printf("%lld\n", fone1Profissional[indice]);
+			printf("%lld\n", fone2Profissional[indice]);
+		}
+	}
+	
+	if(contVazios == 20) {
+		r = 0;
+	} else {
+		r = 1;
+	}
+
 	return r;
 }
