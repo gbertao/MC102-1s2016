@@ -9,7 +9,7 @@ int alterar (int tipo, char nome[], long long int cpf, char endereco[], long lon
 int buscar (int tipo, char nome[]);
 int listarPessoais (void);
 int listarProfissionais (void);
-int listarTodos(void);
+//int listarTodos(void);
 
 typedef char string[60];
 
@@ -60,7 +60,7 @@ int main (void) {
 			resposta = excluir(tipo, nome);
 
 			if(resposta == 0) {
-				printf("Desculpue, contato %s nao existe\n", nome);
+				printf("Desculpe, contato %s nao existe!\n", nome);
 			} else {
 				printf("Excluido com sucesso!\n");
 			}
@@ -78,7 +78,7 @@ int main (void) {
 			if(resposta == 0) {
 				printf("Desculpe, contato %s nao existe\n", nome);
 			} else {
-				printf("Alterado com sucesso\n");
+				printf("Alterado com sucesso!\n");
 			}
 			break;
 		case 4:
@@ -88,7 +88,7 @@ int main (void) {
 			resposta = buscar(tipo, nome);
 		
 			if(resposta == 0) {
-				printf("Desculpe, contado %s nao existe!\n", nome);
+				printf("Desculpe, contato %s nao existe!\n", nome);
 			} else {
 				printf("Buscado com sucesso!\n");
 			}
@@ -97,27 +97,32 @@ int main (void) {
 			resposta = listarPessoais();
 
 			if(resposta == 0) {
-				printf("Listado com sucesso!\n");
-			} else {
 				printf("Desculpe, agenda vazia!\n");
+			} else {
+				printf("Listado com sucesso!\n");
 			}
 			break;
 		case 6:
 			resposta = listarProfissionais();
 			
 			if(resposta == 0) {
-				printf("Listado com sucesso!\n");
-			} else {
 				printf("Desculpe, agenda vazia!\n");
+			} else {
+				printf("Listado com sucesso!\n");
 			}
 			break;
 		case 7:
-			resposta = listarTodos();
-			
+			resposta = listarPessoais();
 			if(resposta == 0) {
-				printf("Listado com sucesso!\n");
-			} else {
 				printf("Desculpe, agenda vazia!\n");
+			} else {
+				printf("Listado com sucesso!\n");
+			}
+			resposta = listarProfissionais();
+			if(resposta == 0) {
+				printf("Desculpe, agenda vazia!\n");
+			} else {
+				printf("Listado com sucesso!\n");
 			}
 			break;
 		case 0:
@@ -167,7 +172,7 @@ int inserir (int tipo, char nome[], long long int cpf, char endereco[], long lon
 
 //---Excluir
 int excluir (int tipo, char nome[]) {
-	int r, indice;
+	int r, indice, proximo;
 	
 	//Procurar na matriz pelo nome
 	if(tipo == 1) {
@@ -176,6 +181,16 @@ int excluir (int tipo, char nome[]) {
 			if(strcmp(nomePessoal[indice], nome) == 0) {
 				strcpy(nomePessoal[indice], "\0");
          		r = 1;
+				//Reordenar
+				for(proximo = indice + 1; proximo < 9; proximo++) {
+					strcpy(nomePessoal[indice], nomePessoal[proximo]);
+					cpfPessoal[indice] = cpfPessoal[proximo];
+					strcpy(endPessoal[indice], endPessoal[proximo]);
+					fone1Pessoal[indice] = fone1Pessoal[proximo];
+					fone2Pessoal[indice] = fone2Pessoal[proximo];
+					indice++;
+				}
+				strcpy(nomePessoal[9], "\0");
 				break;
 			} else {
 				r = 0;
@@ -186,6 +201,16 @@ int excluir (int tipo, char nome[]) {
 			if(strcmp(nomeProfissional[indice], nome) == 0) {
 				strcpy(nomeProfissional[indice], "\0");
          		r = 1;
+				//Reordenar
+				for(proximo = indice + 1; proximo < 9; proximo++) {
+					strcpy(nomeProfissional[indice], nomeProfissional[proximo]);
+					cpfProfissional[indice] = cpfProfissional[proximo];
+					strcpy(endProfissional[indice], endProfissional[proximo]);
+					fone1Profissional[indice] = fone1Profissional[proximo];
+					fone2Profissional[indice] = fone2Profissional[proximo];
+					indice++;
+				}
+				strcpy(nomeProfissional[9], "\0");
 				break;
 			} else {
 				r = 0;
@@ -317,7 +342,7 @@ int listarProfissionais (void) {
 	return r;
 }
 
-//---Listar todos os contatos
+/*---Listar todos os contatos
 int listarTodos (void) {
 	int indice, contVazios = 0, r;
 
@@ -331,6 +356,10 @@ int listarTodos (void) {
 			printf("%lld\n", fone1Pessoal[indice]);
 			printf("%lld\n", fone2Pessoal[indice]);
 		}
+		if(contVazios == 10){
+		} else {
+			r = 1;
+		}
 	}
 	for(indice = 0; indice < 10; indice++) {
 		if(strcmp(nomeProfissional[indice], "") == 0) {
@@ -342,6 +371,12 @@ int listarTodos (void) {
 			printf("%lld\n", fone1Profissional[indice]);
 			printf("%lld\n", fone2Profissional[indice]);
 		}
+		if(contVazios == 10) {
+		
+			r = 2;
+		} else {
+			r = 3;
+		}
 	}
 	
 	if(contVazios == 20) {
@@ -351,4 +386,4 @@ int listarTodos (void) {
 	}
 
 	return r;
-}
+}*/
