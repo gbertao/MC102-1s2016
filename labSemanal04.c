@@ -137,12 +137,12 @@ int inserir (int tipo, char nome[60]) {
 
 	//Verificar agenda e inserir
 	if (tipo == 1) {
+		scanf(" %lld", &cpf);
+		scanf(" %[^\n]s", endereco);
+		scanf(" %lld %lld", &fone1, &fone2);
+
 		for (indice = 0; indice < 10; indice++) {
 			if(strcmp(nomePessoal[indice], "") == 0) {
-				scanf(" %lld", &cpf);
-				scanf(" %[^\n]s", endereco);
-				scanf(" %lld %lld", &fone1, &fone2);
-				
 				strcpy(nomePessoal[indice], nome);
 				cpfPessoal[indice] = cpf;
 				strcpy(endPessoal[indice], endereco);
@@ -156,12 +156,12 @@ int inserir (int tipo, char nome[60]) {
 			}
 		}
 	} else {
+		scanf(" %lld", &cpf);
+		scanf(" %[^\n]s", endereco);
+		scanf(" %lld %lld", &fone1, &fone2);
+
 		for (indice = 0; indice < 10; indice++) {
 			if(strcmp(nomeProfissional[indice], "") == 0) {
-				scanf(" %lld", &cpf);
-				scanf(" %[^\n]s", endereco);
-				scanf(" %lld %lld", &fone1, &fone2);
-
 				strcpy(nomeProfissional[indice], nome);
 				cpfProfissional[indice] = cpf;
 				strcpy(endProfissional[indice], endereco);
