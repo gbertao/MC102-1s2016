@@ -283,7 +283,7 @@ int buscar (int tipo, char nome[60]) {
 		for (indice = 0; indice < 10; indice++) {
 			if(strcmp(nomePessoal[indice], nome) == 0) {
 				printf("%s\n", nomePessoal[indice]);
-				printf("%lld\n", cpfPessoal[indice]);
+				printf("%011lld\n", cpfPessoal[indice]);
 				printf("%s\n", endPessoal[indice]);
 				printf("%lld\n", fone1Pessoal[indice]);
 				printf("%lld\n", fone2Pessoal[indice]);
@@ -298,7 +298,7 @@ int buscar (int tipo, char nome[60]) {
 		for (indice = 0; indice < 10; indice++) {
 			if(strcmp(nomeProfissional[indice], nome) == 0) {
 				printf("%s\n", nomeProfissional[indice]);
-				printf("%lld\n", cpfProfissional[indice]);
+				printf("%011lld\n", cpfProfissional[indice]);
 				printf("%s\n", endProfissional[indice]);
 				printf("%lld\n", fone1Profissional[indice]);
 				printf("%lld\n", fone2Profissional[indice]);
@@ -322,7 +322,7 @@ int listarPessoais (void) {
 			contVazios++;
 		} else {
 			printf("%s\n", nomePessoal[indice]);
-			printf("%lld\n", cpfPessoal[indice]);
+			printf("%011lld\n", cpfPessoal[indice]);
 			printf("%s\n", endPessoal[indice]);
 			printf("%lld\n", fone1Pessoal[indice]);
 			printf("%lld\n", fone2Pessoal[indice]);
@@ -347,7 +347,7 @@ int listarProfissionais (void) {
 			contVazios++;
 		} else {
 			printf("%s\n", nomeProfissional[indice]);
-			printf("%lld\n", cpfProfissional[indice]);
+			printf("%011lld\n", cpfProfissional[indice]);
 			printf("%s\n", endProfissional[indice]);
 			printf("%lld\n", fone1Profissional[indice]);
 			printf("%lld\n", fone2Profissional[indice]);
