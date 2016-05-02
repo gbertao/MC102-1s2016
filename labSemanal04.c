@@ -3,15 +3,15 @@
 #include<string.h>
 
 //Assinatura de Funcoes
-int inserir (int tipo, char nome[60]);
-int excluir (int tipo, char nome[60]);
-int alterar (int tipo, char nome[60]);
-int buscar (int tipo, char nome[60]);
+int inserir (int tipo, char nome[61]);
+int excluir (int tipo, char nome[61]);
+int alterar (int tipo, char nome[61]);
+int buscar (int tipo, char nome[61]);
 int listarPessoais (void);
 int listarProfissionais (void);
 //int listarTodos(void);
 
-typedef char string[60];
+typedef char string[61];
 
 //Contatos Pessoais
 string nomePessoal[10], endPessoal[10];
@@ -23,7 +23,7 @@ long long int cpfProfissional[10], fone1Profissional[10], fone2Profissional[10];
 
 int main (void) {
 	//Declaração de variaveis
-	char nome[60];
+	char nome[61];
 	int tipo, resposta, op;
 	
 	//Preparar matrizes(uso op para economizar variaveis)
@@ -129,11 +129,11 @@ int main (void) {
 
 //----------------------------------------------Funções
 //---Inserir
-int inserir (int tipo, char nome[60]) {
+int inserir (int tipo, char nome[61]) {
 	//Variaveis da função
 	int indice, r;
 	long long int cpf, fone1, fone2;
-	char endereco[60];
+	char endereco[61];
 
 	//Verificar agenda e inserir
 	if (tipo == 1) {
@@ -179,7 +179,7 @@ int inserir (int tipo, char nome[60]) {
 }
 
 //---Excluir
-int excluir (int tipo, char nome[60]) {
+int excluir (int tipo, char nome[61]) {
 	//Variaveis da Função
 	int r, indice, proximo;
 
@@ -230,10 +230,10 @@ int excluir (int tipo, char nome[60]) {
 }
 
 //---Alterar
-int alterar (int tipo, char nome[60]){
+int alterar (int tipo, char nome[61]){
 	int r, indice;
 	long long int cpf, fone1, fone2;
-	char endereco[60];
+	char endereco[61];
 
 	//Procurar na lista pelo nome
 	if (tipo == 1) {
@@ -276,7 +276,7 @@ int alterar (int tipo, char nome[60]){
 }
 
 //---Buscar
-int buscar (int tipo, char nome[60]) {
+int buscar (int tipo, char nome[61]) {
 	int r, indice;
 	
 	if(tipo == 1) {
