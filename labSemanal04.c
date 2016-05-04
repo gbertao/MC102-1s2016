@@ -191,7 +191,7 @@ int excluir (int tipo, char nome[61]) {
 				strcpy(nomePessoal[indice], "\0");
          		r = 1;
 				//Reordenar
-				for(proximo = indice + 1; proximo < 9; proximo++) {
+				for(proximo = indice + 1; proximo < 10; proximo++) {
 					strcpy(nomePessoal[indice], nomePessoal[proximo]);
 					cpfPessoal[indice] = cpfPessoal[proximo];
 					strcpy(endPessoal[indice], endPessoal[proximo]);
@@ -211,7 +211,7 @@ int excluir (int tipo, char nome[61]) {
 				strcpy(nomeProfissional[indice], "\0");
          		r = 1;
 				//Reordenar
-				for(proximo = indice + 1; proximo < 9; proximo++) {
+				for(proximo = indice + 1; proximo < 10; proximo++) {
 					strcpy(nomeProfissional[indice], nomeProfissional[proximo]);
 					cpfProfissional[indice] = cpfProfissional[proximo];
 					strcpy(endProfissional[indice], endProfissional[proximo]);
