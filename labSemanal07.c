@@ -1,4 +1,4 @@
-//Giovanni Bertão
+//Giovanni Bertão -- parei na linha 180
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
@@ -14,11 +14,12 @@ struct medico {
 	char nome[101];
 };
 
-struct consulta {
+struct consulta {//Elemento da lista ligada
 	char nome[101];
 	char data[11];
 	char cod_Doenca[4];
 	char crm[7];
+	struct consulta *proximo;
 };
 
 enum opcoes {sair = 0, add = 1, rm = 2, altdiag = 3, altdata = 4, altmed = 5}; 
@@ -28,9 +29,13 @@ int leropcao (void);
 
 int main (void) {
 	//Declaração de Variaveis
-	int n, m, i;
+	int n, m, i, matrizChave[2][2], mChaveInv[2][2];
 	char letra;
 	enum opcoes op;
+	struct consulta *inicio_lista;
+	
+	//Lista Vazia
+	inicio_lista = NULL;
 
 	//Doenças
 	scanf(" %d", &n);
@@ -63,15 +68,24 @@ int main (void) {
 		scanf(" %s", medicos[i].crm);
 		scanf(" %[^ \n]s", medicos[i].nome);
 	}
+	
+	//Completar Matriz Chave
+	for(i = 0; i < 2; i++) {
+		scanf(" %d %d", &matriz[i][0], &matriz[i][1]);
+	}
 
 	//Letra que deve ser iniciada a impressão do relatório
 	scanf("%c", &letra);
+
+	//Encontrar Matriz para Descriptografar
+	Descriptografar_Matriz(matrizChave, mChaveInv);
 
 	//Comandos
 	do{
 		op = leropcao();
 		switch(op) {
 			case add:
+				inserir(inicio_lista, mChaveInv);
 				break;
 			case rm:
 				break;
@@ -93,6 +107,7 @@ int main (void) {
 	return 0;
 }
 
+/*Função: Irá ler a operação digitada e retornar um inteiro correspondente a lista opcoes*/
 int leropcao (void) {
 	int op;
 	char opcao[8];
@@ -114,4 +129,70 @@ int leropcao (void) {
 	}
 
 	return op;
+}
+
+void Descriptografar_Matriz(int chave[][2], int chaveInv[][2]) {
+	int det, d = 1, i, j;
+	
+	det = (chave[0][0] * chave[1][1]) - (chave[0][1] * chave[1][0]);
+	while( (det * d) % 26 != 1) {
+		d++;
+	}
+	
+	chaveInv[0][0] = d * chave[1][1];
+	chaveInv[0][1] = d * -1 * chave[0][1];
+	chaveInv[1][0] = d * -1 * chave[1][0];
+	chaveInv[1][1] = d * chave[0][0];
+
+	for(i = 0; i < 2; i++) {
+		for(j = 0; j < 2; j++) {
+			chaveInv[i][j] = chaveInv[i][j] % 26;
+			if(chaveInv[i][j] < 0) {
+				chaveInv[i][j] = chaveInv[i][j] + 26;
+			}
+		}
+	}
+	return;
+}
+
+void inserir(struct consulta * inicio, int chaveInv[][2]) {
+	struct consulta *prox;
+	struct consulta *anterior;
+	struct consulta *nova;
+	char nome[101], nomeReal[101];
+	
+	proximo = inicio;
+
+	//Ler Nome Criptografado
+	scanf(" %s", nome);
+
+	//Descriptografar o nome
+	descriptografar(nome, nomeReal, chaveInv);
+	
+	//Alocar memória
+	nova = (struct consulta*) malloc(sizeof(struct consulta));
+
+	//Buscar na lista a posição
+	if(inicio == NULL) {//Se a lista estiver vazia
+		inicio = nova;
+		nova->proximo = nova;
+	} else {
+		
+	return;
+}
+
+void descriptografar(char nome[101], char nomeReal[101], int chaveInv[][2]) {
+	int matrizNome[2][1], i = 0, k = 2;
+	while(nome[i] != '\0') {
+		matrizNome[0][1] = nome[i] - 65;
+		matrizNome[1][0] = nome[k] - 65;
+		
+		nomeReal[i] = ((matrizNome[0][0] * chaveInv[0][0]) + (matrizNome[1][0] * chaveInv[0][1])) + 65;
+		nomeReal[k] = ((matrizNome[0][0] * chaveInv[1][0]) + (matrizNome[1][0] * chaveInv[1][1])) + 65;
+
+		i+=2;
+		k+=2;
+	}
+	nomeReal[i] = '\0';
+	return;
 }
