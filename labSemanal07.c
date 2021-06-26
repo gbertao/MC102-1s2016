@@ -26,6 +26,9 @@ enum opcoes {sair = 0, add = 1, rm = 2, altdiag = 3, altdata = 4, altmed = 5};
 
 //Assinatura de Funções
 int leropcao (void);
+void Descriptografar_Matriz(int chave[][2], int chaveInv[][2]);
+void inserir(struct consulta * inicio, int chaveInv[][2]);
+void descriptografar(char nome[101], char nomeReal[101], int chaveInv[][2]);
 
 int main (void) {
 	//Declaração de Variaveis
@@ -50,7 +53,7 @@ int main (void) {
 	//Completar vetor
 	for(i = 0; i < n; i ++) {
 		scanf(" %s", doencas[i].cod);
-		scanf(" %[^ \n]s", doencas[i].nome);
+		scanf(" %[^\n]s", doencas[i].nome);
 	}
 
 	//Médicos
@@ -66,16 +69,16 @@ int main (void) {
 	//Completar Vetor
 	for(i = 0; i < m; i++) {
 		scanf(" %s", medicos[i].crm);
-		scanf(" %[^ \n]s", medicos[i].nome);
+		scanf(" %[^\n]s", medicos[i].nome);
 	}
 	
 	//Completar Matriz Chave
 	for(i = 0; i < 2; i++) {
-		scanf(" %d %d", &matriz[i][0], &matriz[i][1]);
+		scanf(" %d %d", &matrizChave[i][0], &matrizChave[i][1]);
 	}
 
 	//Letra que deve ser iniciada a impressão do relatório
-	scanf("%c", &letra);
+	scanf(" %c", &letra);
 
 	//Encontrar Matriz para Descriptografar
 	Descriptografar_Matriz(matrizChave, mChaveInv);
@@ -159,9 +162,9 @@ void inserir(struct consulta * inicio, int chaveInv[][2]) {
 	struct consulta *prox;
 	struct consulta *anterior;
 	struct consulta *nova;
-	char nome[101], nomeReal[101];
+	char nome[101], nomeReal[101], nomeProx[101];
 	
-	proximo = inicio;
+	prox = inicio;
 
 	//Ler Nome Criptografado
 	scanf(" %s", nome);
@@ -175,20 +178,62 @@ void inserir(struct consulta * inicio, int chaveInv[][2]) {
 	//Buscar na lista a posição
 	if(inicio == NULL) {//Se a lista estiver vazia
 		inicio = nova;
-		nova->proximo = nova;
-	} else {
-		
+		nova->proximo = nova;//O elemento 1 aponta para ele mesmo - Lista Ligada ciclica.
+	} else {//Inserir no meio da Lista
+		while(!0) {
+			descriptografar(prox->nome, nomeProx, chaveInv);
+			if(strcmp(nomeReal, nomeProx) < 0) {
+				break;
+			} else {
+				prox = prox->proximo;//Rodar pela lista
+			}
+		}
+		//Encontrar o elemento que deve estar antes do novo elemento
+		anterior = prox->proximo;
+		while(!0) {
+			if(anterior->proximo != prox) {
+				anterior = anterior->proximo;
+			} else {
+				break;
+			}		
+		}
+
+		//Alocar novo elemento
+		anterior->proximo = nova;
+		nova->proximo = prox;
+	}
+	
+	//Preencher dados
+	strcpy(nova->nome, nome);
+	scanf(" %s", nova->data);
+	scanf(" %s", nova->cod_Doenca);
+	scanf(" %s", nova->crm);
+
 	return;
 }
 
 void descriptografar(char nome[101], char nomeReal[101], int chaveInv[][2]) {
-	int matrizNome[2][1], i = 0, k = 2;
+	int matrizNome[2], i = 0, k = 1;
+	int elemento1, elemento2;
 	while(nome[i] != '\0') {
-		matrizNome[0][1] = nome[i] - 65;
-		matrizNome[1][0] = nome[k] - 65;
+		matrizNome[0] = nome[i] - 65;
+		matrizNome[1] = nome[k] - 65;
 		
-		nomeReal[i] = ((matrizNome[0][0] * chaveInv[0][0]) + (matrizNome[1][0] * chaveInv[0][1])) + 65;
-		nomeReal[k] = ((matrizNome[0][0] * chaveInv[1][0]) + (matrizNome[1][0] * chaveInv[1][1])) + 65;
+		elemento1 = (chaveInv[0][0] * matrizNome[0]) + (chaveInv[0][1] * matrizNome[1]);
+		elemento2 = (chaveInv[1][0] * matrizNome[0]) + (chaveInv[1][1] * matrizNome[1]);
+
+		nomeReal[i] = elemento1 % 26;
+		if(nomeReal[i] < 0) {
+			nomeReal[i] += 26;
+		}
+		nomeReal[k] = elemento2 % 26;
+		if(nomeReal[k] < 0) {
+			nomeReal[k] += 26;
+		}
+
+		nomeReal[i] += 65;
+		nomeReal[k] += 65;
+
 
 		i+=2;
 		k+=2;
